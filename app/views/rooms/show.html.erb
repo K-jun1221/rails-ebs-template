@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<p>
+<!-- <p>
   <strong>Title:</strong>
   <%= @room.title %>
 </p>
@@ -8,7 +6,43 @@
 <p>
   <strong>Description:</strong>
   <%= @room.description %>
-</p>
+</p> -->
+<% @comments.each do | comment |  %>
+  <div class="mb-5">
+      <% if comment.imageurl != "" %>
+        <div class="mb-2" style="
+          height: 300px;
+          width: 300px;
+        ">
+          <img src="<%= 'https://s3-ap-northeast-1.amazonaws.com/rails-ebs-template/' + comment.imageurl%>" alt="..." style="
+            height: 300px;
+            width: 300px;
+          "/>
+        </div>
+      <% end %>
+      <% if comment.content.present? %>
+        <div class="card mb-2" style="width: 100%;">
+          <div class="card-body">
+            <p class="card-text"><%= comment.content %></p>
+          </div>
+        </div>
+      <% end %>
+      <small>written by user <%= comment.user.id %> / <%= comment.created_at  %> </small>
+  </div>
+<% end %>
 
 <%= link_to 'Edit', edit_room_path(@room) %> |
 <%= link_to 'Back', rooms_path %>
+
+<%= form_tag "/comments", :name => "commentNew", :multipart => true do %>
+  <input type="hidden" name="room_id" value="<%= @room.id %>">
+  <input type="hidden" name="user_id" value="<%= current_user.id %>">
+  <div class="form-group">
+    <label for="exampleInputEmail1">New Comment</label>
+    <textarea name="content" class="form-control" rows="3"></textarea>
+  </div>
+
+  <%= file_field_tag :file, name: "image" %>
+  <button type="submit" class="btn btn-primary">Submit</button>
+<% end %>
+

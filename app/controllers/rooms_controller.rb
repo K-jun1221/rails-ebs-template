@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
   # GET /rooms
@@ -10,6 +11,8 @@ class RoomsController < ApplicationController
   # GET /rooms/1
   # GET /rooms/1.json
   def show
+    @comment = Comment.new
+    @comments = Comment.where(room_id: params[:id])
   end
 
   # GET /rooms/new
