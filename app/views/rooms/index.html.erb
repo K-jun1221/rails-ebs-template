@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Rooms</h1>
+
+<div class="row">
+  <% @rooms.each do |room| %>
+      <div class="col-4">
+        <div class="card m-2">
+          <div class="card-body">
+            <h5 class="card-title"><%= room.title %></h5>
+            <p class="card-text"><%= room.description %></p>
+            <%= link_to 'Show', room %>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>
+
+<br>
+
+<%= link_to 'New Room', new_room_path, class: "m-2" %>
